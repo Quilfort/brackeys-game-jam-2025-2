@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://dx2i3d3yni60e"]
+
+[ext_resource type="Script" uid="uid://dher7bblkb7n7" path="res://Scripts/Kitchen/oven.gd" id="1_4yyae"]
+[ext_resource type="Texture2D" uid="uid://dhlg1ke7vg6v4" path="res://Assets/Kitchen/Oven/oven_off.png" id="2_mxkmn"]
+[ext_resource type="Texture2D" uid="uid://ce66edg3i6rwv" path="res://Assets/Kitchen/Oven/oven_on.png" id="3_lxawo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ot4wb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mxkmn")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_lxawo")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4yyae"]
+size = Vector2(32, 54)
+
+[node name="Oven" type="Node2D"]
+script = ExtResource("1_4yyae")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_ot4wb")
+animation = &"on"
+
+[node name="InteractionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_4yyae")
