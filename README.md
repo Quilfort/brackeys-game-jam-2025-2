@@ -5,7 +5,9 @@ This is a work in progress for [Brackeys Game Jam 2025.2](https://itch.io/jam/br
 # Assets
 
 ### Kitchen
+
 https://bitglow.itch.io/pixelinterior-livingroomkitchen
 
 ### Character
-https://otterisk.itch.io/hana-caraka-base-character
+
+https://pixel-boy.itch.io/ninja-adventure-asset-pack

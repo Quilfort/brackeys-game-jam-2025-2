@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=4 uid="uid://r6avodpagxhe"]
 
-[ext_resource type="Texture2D" uid="uid://bsdalkvopa3u8" path="res://Assets/Packs/pixelinterior_LRK/floorswalls_LRK.png" id="1_2w1uo"]
-[ext_resource type="Texture2D" uid="uid://bau1p1y4ir1f7" path="res://Assets/Packs/pixelinterior_LRK/kitchen_LRK.png" id="2_3pq2o"]
-[ext_resource type="Texture2D" uid="uid://bo762011slg5e" path="res://Assets/Packs/pixelinterior_LRK/doorswindowsstairs_LRK.png" id="3_5oqhw"]
+[ext_resource type="Texture2D" uid="uid://bsdalkvopa3u8" path="res://Assets/Kitchen/floorswalls_LRK.png" id="1_2w1uo"]
+[ext_resource type="Texture2D" uid="uid://bau1p1y4ir1f7" path="res://Assets/Kitchen/kitchen_LRK.png" id="2_3pq2o"]
+[ext_resource type="Texture2D" uid="uid://bo762011slg5e" path="res://Assets/Kitchen/doorswindowsstairs_LRK.png" id="3_5oqhw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3pq2o"]
 texture = ExtResource("1_2w1uo")
