@@ -175,5 +175,5 @@ sprite_frames = SubResource("SpriteFrames_mxepk")
 animation = &"up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.3, 1.3)
 shape = SubResource("RectangleShape2D_eo61r")

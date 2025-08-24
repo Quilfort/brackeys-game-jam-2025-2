@@ -6,7 +6,7 @@ extends CharacterBody2D
 # Movement
 @export var movement_speed: float = 100.0
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var input_vector := Vector2.ZERO
 	
 	# Input handling (WASD + Arrow keys by default in Godot's InputMap)
