@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://bel5evv10xrfh"]
+
+[ext_resource type="Script" uid="uid://bbs3eunkbotrp" path="res://Scripts/TrashBurner/trash_burner.gd" id="1_gdcw0"]
+[ext_resource type="Texture2D" uid="uid://0qxq2wgjce7b" path="res://Assets/Kitchen/TrashBurner/trash_burner_off.png" id="2_cr346"]
+[ext_resource type="Texture2D" uid="uid://c8kdst70vkrl2" path="res://Assets/Kitchen/TrashBurner/trash_burner_on.png" id="3_w7utq"]
+[ext_resource type="Script" uid="uid://c08a10kqtkc3y" path="res://Scripts/TrashBurner/progress_indicator.gd" id="4_cr346"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xlabu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_cr346")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_w7utq")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvvoj"]
+size = Vector2(32, 42)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cr346"]
+size = Vector2(31.5, 28.5)
+
+[node name="TrashBurner" type="Node2D"]
+script = ExtResource("1_gdcw0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xlabu")
+animation = &"off"
+
+[node name="InteractionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_xvvoj")
+
+[node name="ProgressIndicator" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -40)
+script = ExtResource("4_cr346")
+color_burning = Color(0.756996, 0.517159, 0.181424, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0.25, 8.75)
+shape = SubResource("RectangleShape2D_cr346")

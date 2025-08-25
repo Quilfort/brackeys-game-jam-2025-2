@@ -13,6 +13,9 @@ var carried_cookie: Node = null
 func _ready() -> void:
 	add_to_group("player")
 
+	# Set z-index so Carry Point Cookie is always Foreground
+	carry_point.z_index = 10
+
 func _physics_process(_delta: float) -> void:
 	var input_vector := Vector2.ZERO
 	
