@@ -11,3 +11,7 @@ https://bitglow.itch.io/pixelinterior-livingroomkitchen
 ### Character
 
 https://pixel-boy.itch.io/ninja-adventure-asset-pack
+
+## Cookie
+
+https://nnekart.itch.io/sweet-cookie-icon

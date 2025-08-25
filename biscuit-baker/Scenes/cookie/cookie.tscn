@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://cm237tuwg54cx"]
+
+[ext_resource type="Script" uid="uid://bkoowswm38crg" path="res://Scripts/Cookie/cookie.gd" id="1_ray8k"]
+[ext_resource type="Texture2D" uid="uid://54xmof3wa162" path="res://Assets/Cookie/Cookie Sheet 16x16_nnekart-sample.png" id="2_si65g"]
+[ext_resource type="Texture2D" uid="uid://opj371sxqqrd" path="res://Assets/Packs/Ninja Adventure - Asset Pack/Items/Food/Noodle.png" id="3_622xo"]
+[ext_resource type="Texture2D" uid="uid://pqc4qwa304ew" path="res://Assets/Packs/Ninja Adventure - Asset Pack/Items/Object/CrateEmpty.png" id="4_rxgx4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_622xo"]
+atlas = ExtResource("2_si65g")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxgx4"]
+atlas = ExtResource("3_622xo")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ray8k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_622xo")
+}],
+"loop": true,
+"name": &"cooked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxgx4")
+}],
+"loop": true,
+"name": &"dough",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_rxgx4")
+}],
+"loop": true,
+"name": &"overcooked",
+"speed": 5.0
+}]
+
+[node name="Cookie" type="Area2D"]
+script = ExtResource("1_ray8k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_ray8k")
+animation = &"dough"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -6,6 +6,13 @@ extends CharacterBody2D
 # Movement
 @export var movement_speed: float = 100.0
 
+# Cookie
+var carried_cookie: Node = null 
+@onready var carry_point: Marker2D = $CarryPoint
+
+func _ready() -> void:
+	add_to_group("player")
+
 func _physics_process(_delta: float) -> void:
 	var input_vector := Vector2.ZERO
 	
