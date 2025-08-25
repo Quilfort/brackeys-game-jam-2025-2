@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dx2i3d3yni60e"]
+[gd_scene load_steps=7 format=3 uid="uid://dx2i3d3yni60e"]
 
 [ext_resource type="Script" uid="uid://dher7bblkb7n7" path="res://Scripts/Kitchen/oven.gd" id="1_4yyae"]
 [ext_resource type="Texture2D" uid="uid://dhlg1ke7vg6v4" path="res://Assets/Kitchen/Oven/oven_off.png" id="2_mxkmn"]
 [ext_resource type="Texture2D" uid="uid://ce66edg3i6rwv" path="res://Assets/Kitchen/Oven/oven_on.png" id="3_lxawo"]
+[ext_resource type="Script" uid="uid://ch4xoj2v2hjum" path="res://Scripts/Cookie/progress_indicator.gd" id="4_mxkmn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ot4wb"]
 animations = [{
@@ -40,3 +41,8 @@ unique_name_in_owner = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_4yyae")
+
+[node name="ProgressIndicator" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -40)
+script = ExtResource("4_mxkmn")

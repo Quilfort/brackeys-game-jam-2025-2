@@ -1,15 +1,24 @@
 extends Node2D
 
+# Animation
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var interaction_area: Area2D = $InteractionArea
-@onready var cookie_holder: Node2D = $CookieHolder
 
+# Interaction/Collision
+@onready var interaction_area: Area2D = $InteractionArea
+
+# State
 var oven_on: bool = false
 var player_in_range: bool = false
 var player_ref: Node = null
+
+# Cookie
+var cookie_holder: Node2D
 var cookie_in_oven: Node = null
 var cooking_time: float = 0.0
-var cooking_time_required: float = 5.0  # Seconds needed to cook the cookie
+var cooking_time_required: float = 5.0 
+
+# Progress Indicator
+@onready var progress_indicator = $ProgressIndicator
 
 func _ready() -> void:
 	interaction_area.connect("body_entered", Callable(self, "_on_body_entered"))
@@ -19,7 +28,9 @@ func _ready() -> void:
 	sprite.play("off")
 	
 	# Create cookie holder if it doesn't exist
-	if not has_node("CookieHolder"):
+	if has_node("CookieHolder"):
+		cookie_holder = $CookieHolder
+	else:
 		cookie_holder = Node2D.new()
 		cookie_holder.name = "CookieHolder"
 		add_child(cookie_holder)
@@ -28,17 +39,26 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("interact") and player_in_range:
 		handle_interaction()
 	
-	# Handle cookie cooking if there's a cookie in the oven and the oven is on
+	# Inside _process
 	if cookie_in_oven != null and oven_on:
 		cooking_time += delta
-		if cooking_time >= cooking_time_required:
-			if cookie_in_oven.state == cookie_in_oven.CookieState.DOUGH:
+		
+		if cookie_in_oven.state == cookie_in_oven.CookieState.DOUGH:
+			progress_indicator.set_progress(cooking_time / cooking_time_required, 0) # phase 0 = cooking
+			
+			if cooking_time >= cooking_time_required:
 				cookie_in_oven.set_state(cookie_in_oven.CookieState.COOKED)
 				print("Cookie is cooked!")
-			elif cookie_in_oven.state == cookie_in_oven.CookieState.COOKED:
+				cooking_time = 0.0
+		
+		elif cookie_in_oven.state == cookie_in_oven.CookieState.COOKED:
+			progress_indicator.set_progress(cooking_time / cooking_time_required, 1) # phase 1 = ready
+			
+			if cooking_time >= cooking_time_required:
 				cookie_in_oven.set_state(cookie_in_oven.CookieState.OVERCOOKED)
 				print("Cookie is overcooked!")
-			cooking_time = 0.0
+				progress_indicator.set_progress(1.0, 2) # lock as red
+				cooking_time = 0.0
 
 func toggle_oven() -> void:
 	oven_on = !oven_on
@@ -79,8 +99,12 @@ func handle_interaction() -> void:
 		cookie_in_oven = null
 		return
 	
-	# Case 3: Just toggle the oven if no cookie transfer is happening
-	toggle_oven()
+	# Case 3: Toggle the oven ONLY if there's a cookie in it
+	elif cookie_in_oven != null:
+		toggle_oven()
+		# Reset cooking time when turning off the oven
+		if not oven_on:
+			cooking_time = 0.0
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"): # Add player to "player" group in the editor
