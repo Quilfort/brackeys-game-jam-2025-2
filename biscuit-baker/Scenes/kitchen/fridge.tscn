@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://vm5fay51c0cw"]
+
+[ext_resource type="Texture2D" uid="uid://cri7oc3858c4a" path="res://Assets/Kitchen/Fridge/fridge_closed.png" id="1_d5k6a"]
+[ext_resource type="Script" uid="uid://btkmnnnect62u" path="res://Scripts/Kitchen/fridge.gd" id="1_q0fnq"]
+[ext_resource type="Texture2D" uid="uid://dcnel1i8qkbsv" path="res://Assets/Kitchen/Fridge/fridge_open.png" id="2_q0fnq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j50ab"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d5k6a")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q0fnq")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d5k6a"]
+size = Vector2(35, 57)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0fnq"]
+size = Vector2(22, 22)
+
+[node name="Fridge" type="Node2D"]
+script = ExtResource("1_q0fnq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_j50ab")
+animation = &"open"
+
+[node name="InteractionArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+visible = false
+position = Vector2(2.5, -0.5)
+shape = SubResource("RectangleShape2D_d5k6a")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-2, 15)
+shape = SubResource("RectangleShape2D_q0fnq")

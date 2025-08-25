@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cni47lykubb27"]
+[gd_scene load_steps=5 format=3 uid="uid://cni47lykubb27"]
 
 [ext_resource type="PackedScene" uid="uid://r6avodpagxhe" path="res://Scenes/kitchen/kitchen_tile_map_layer.tscn" id="1_wes72"]
 [ext_resource type="PackedScene" uid="uid://kiqjwr78d8xk" path="res://Scenes/player/player.tscn" id="2_drky7"]
 [ext_resource type="PackedScene" uid="uid://dx2i3d3yni60e" path="res://Scenes/kitchen/oven.tscn" id="3_gpgkw"]
+[ext_resource type="PackedScene" uid="uid://vm5fay51c0cw" path="res://Scenes/kitchen/fridge.tscn" id="4_35que"]
 
 [node name="KitchenStage" type="Node2D"]
 
@@ -11,5 +12,18 @@
 [node name="Player" parent="." instance=ExtResource("2_drky7")]
 position = Vector2(200, 150)
 
-[node name="Oven" parent="." instance=ExtResource("3_gpgkw")]
+[node name="Ovens" type="Node" parent="."]
+
+[node name="OvenMiddle" parent="Ovens" instance=ExtResource("3_gpgkw")]
 position = Vector2(208, 85)
+
+[node name="OvenLeft" parent="Ovens" instance=ExtResource("3_gpgkw")]
+position = Vector2(112, 85)
+
+[node name="OvenRight" parent="Ovens" instance=ExtResource("3_gpgkw")]
+position = Vector2(304, 85)
+
+[node name="Fridges" type="Node" parent="."]
+
+[node name="FridgeLeft" parent="Fridges" instance=ExtResource("4_35que")]
+position = Vector2(23, 160)
