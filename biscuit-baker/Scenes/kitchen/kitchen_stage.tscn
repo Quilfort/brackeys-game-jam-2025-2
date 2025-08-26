@@ -39,7 +39,7 @@ position = Vector2(208, 150)
 [node name="CustomerSpawners" type="Node" parent="."]
 
 [node name="CustomerSpawnerMiddle" type="Node2D" parent="CustomerSpawners"]
-position = Vector2(208, 320)
+position = Vector2(208, 350)
 script = ExtResource("6_8d34n")
 customer_scene = ExtResource("7_lb8at")
 counter_marker = NodePath("../CounterMiddleMarker")
