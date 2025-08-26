@@ -1,3 +1,4 @@
+class_name Customer
 extends CharacterBody2D
 
 # Animation
@@ -7,18 +8,29 @@ extends CharacterBody2D
 @onready var interaction_area: Area2D = $InteractionArea
 
 # Movement
-var move_speed: float = 50.0
-var target_position: Vector2
+@export var speed: float = 50.0
+var target_position: Vector2 = Vector2.ZERO
 var is_moving: bool = true
+var move_threshold: float = 5.0  # Distance threshold for considering target reached
+var state_change_cooldown: float = 0.5  # Cooldown between state changes
+var state_change_timer: float = 0.0  # Timer for state change cooldown
+
+# Unique identifier
+var customer_id: int = 0 
 
 # States
-enum CustomerState { ENTERING, WAITING, SATISFIED, LEAVING, ANGRY }
+enum CustomerState { ENTERING, QUEUED, WAITING, SATISFIED, LEAVING, ANGRY }
 var current_state: CustomerState = CustomerState.ENTERING
 
 # Waiting properties
 var patience_time: float = 15.0  
 var patience_remaining: float = 15.0
 var is_waiting: bool = false
+
+# Queue properties
+var queue_position: Vector2 = Vector2.ZERO
+var customer_ahead: Node = null
+var queue_distance: float = 40.0  # Distance to keep between customers in queue
 
 # Happy animation properties
 var happy_animation_count: int = 0
@@ -51,11 +63,17 @@ func _ready() -> void:
 		patience_bar.visible = false
 	
 	# Print debug info
-	print("Customer initialized with target: ", target_position)
+	print("Customer #" + str(customer_id) + " initialized with target: " + str(target_position))
 
 func _physics_process(delta: float) -> void:
+	# Update state change cooldown timer
+	if state_change_timer > 0:
+		state_change_timer -= delta
+	
 	match current_state:
 		CustomerState.ENTERING:
+			process_movement(delta)
+		CustomerState.QUEUED:
 			process_movement(delta)
 		CustomerState.WAITING:
 			process_waiting(delta)
@@ -69,19 +87,46 @@ func _physics_process(delta: float) -> void:
 func process_movement(_delta: float) -> void:
 	if is_moving:
 		var direction = (target_position - global_position).normalized()
-		velocity = direction * move_speed
+		velocity = direction * speed
 		
 		# Update sprite direction and animation
 		update_animation(direction)
-			
+		
 		# Move the character
 		move_and_slide()
 		
 		# Check if we've reached the target
-		if global_position.distance_to(target_position) < 5.0:
-			# Arrived at counter
+		if global_position.distance_to(target_position) < move_threshold:
+			# Arrived at target position
 			is_moving = false
-			set_state(CustomerState.WAITING)
+			
+			# Determine what state to enter based on where we arrived
+			if state_change_timer <= 0:
+				if is_at_counter_position():
+					# We've reached the counter position
+					set_state(CustomerState.WAITING)
+				else:
+					# We've reached a queue position
+					set_state(CustomerState.QUEUED)
+				
+				# Set cooldown to prevent immediate state changes
+				state_change_timer = state_change_cooldown
+
+func process_queued(_delta: float) -> void:
+	# Check if we should move to the counter
+	if customer_ahead == null or !is_instance_valid(customer_ahead):
+		# The customer ahead is gone, move to the counter
+		target_position = queue_position
+		is_moving = true
+		set_state(CustomerState.ENTERING)
+	else:
+		# Stay in queue and face forward
+		sprite.play("idle")
+		
+		# Don't start patience timer while queued
+		# But maybe show a small animation to indicate waiting
+		if randf() < 0.005:  # Occasional idle animation
+			sprite.play("idle")
 
 func process_waiting(delta: float) -> void:
 	# Decrease patience over time
@@ -120,7 +165,7 @@ func process_leaving(_delta: float) -> void:
 	if is_moving:
 		var exit_position = Vector2(global_position.x, 300)  # Move down off screen
 		var direction = (exit_position - global_position).normalized()
-		velocity = direction * move_speed
+		velocity = direction * speed
 		
 		# Update sprite direction and animation
 		update_animation(direction)
@@ -139,23 +184,34 @@ func set_state(new_state: CustomerState) -> void:
 	var previous_state = current_state
 	current_state = new_state
 	
+	# Debug print for state changes
+	print("Customer #" + str(customer_id) + " state changed from " + str(previous_state) + " to " + str(current_state) + " at position " + str(global_position))
+	
 	match current_state:
 		CustomerState.ENTERING:
 			sprite.play("walk_up")
 			is_moving = true
 			if patience_bar:
 				patience_bar.visible = false
+		CustomerState.QUEUED:
+			sprite.play("idle")
+			is_moving = false
+			is_waiting = false
+			if patience_bar:
+				patience_bar.visible = false
+			print("Customer queued with target: " + str(target_position) + ", queue position: " + str(queue_position))
 		CustomerState.WAITING:
 			sprite.play("idle")
 			is_moving = false
 			is_waiting = true
 			if patience_bar:
 				patience_bar.visible = true
-			# Only reset patience if coming from ENTERING state
-			if previous_state == CustomerState.ENTERING:
+			# Only reset patience if coming from ENTERING or QUEUED state
+			if previous_state == CustomerState.ENTERING or previous_state == CustomerState.QUEUED:
 				patience_remaining = patience_time
 				if patience_bar:
 					patience_bar.set_value(patience_remaining)
+			print("Customer now waiting at counter position: " + str(global_position))
 		CustomerState.SATISFIED:
 			sprite.play("happy")
 			is_moving = false  # Don't move while playing happy animation
@@ -240,6 +296,15 @@ func update_animation(direction: Vector2) -> void:
 		else:
 			sprite.play("walk_down")
 			sprite.flip_h = false
+
+# Helper function to check if we're at the counter position
+func is_at_counter_position() -> bool:
+	# If queue_position is not set, we can't determine
+	if queue_position == Vector2.ZERO:
+		return false
+		
+	# Check if we're close to the counter position
+	return global_position.distance_to(queue_position) < move_threshold * 2
 
 # New function to handle game over
 func trigger_game_over() -> void:
