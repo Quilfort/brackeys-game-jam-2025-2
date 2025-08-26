@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://cni47lykubb27"]
+[gd_scene load_steps=9 format=3 uid="uid://cni47lykubb27"]
 
+[ext_resource type="PackedScene" uid="uid://cttuju7mflnqv" path="res://Scenes/UI/ui.tscn" id="1_7e13b"]
 [ext_resource type="PackedScene" uid="uid://r6avodpagxhe" path="res://Scenes/kitchen/kitchen_tile_map_layer.tscn" id="1_wes72"]
 [ext_resource type="PackedScene" uid="uid://kiqjwr78d8xk" path="res://Scenes/player/player.tscn" id="2_drky7"]
 [ext_resource type="PackedScene" uid="uid://dx2i3d3yni60e" path="res://Scenes/kitchen/oven.tscn" id="3_gpgkw"]
@@ -9,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://ddabounlf37ej" path="res://Scenes/Customer/customer.tscn" id="7_lb8at"]
 
 [node name="KitchenStage" type="Node2D"]
+
+[node name="UI" parent="." instance=ExtResource("1_7e13b")]
 
 [node name="KitchenTileMapLayer" parent="." instance=ExtResource("1_wes72")]
 

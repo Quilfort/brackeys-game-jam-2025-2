@@ -10,7 +10,7 @@ var counter_position_node: Node2D
 # Spawn control
 var time_until_next_spawn: float = 0.0
 var can_spawn: bool = true
-var max_customers: int = 1
+var max_customers: int = 2
 var current_customers: int = 0
 
 func _ready() -> void:

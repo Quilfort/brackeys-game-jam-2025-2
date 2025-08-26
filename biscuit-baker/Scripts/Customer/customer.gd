@@ -26,6 +26,10 @@ var happy_animation_target: int = 2
 var happy_animation_timer: float = 0.0
 var happy_animation_duration: float = 1.0  
 
+# Score
+var points_value: int = 1  
+var score_added: bool = false 
+
 # Interaction
 var player_in_range: bool = false
 var player_ref: Node = null
@@ -92,6 +96,11 @@ func process_waiting(delta: float) -> void:
 		set_state(CustomerState.ANGRY)
 
 func process_satisfied(delta: float) -> void:
+	# Add score when customer is first satisfied (only once)
+	if not score_added:
+		GameData.add_score(points_value)
+		score_added = true
+	
 	# Count how many times we've played the happy animation
 	happy_animation_timer += delta
 	
@@ -156,6 +165,7 @@ func set_state(new_state: CustomerState) -> void:
 			# Reset happy animation counters
 			happy_animation_count = 0
 			happy_animation_timer = 0.0
+			score_added = false  # Reset score flag when entering state
 		CustomerState.LEAVING:
 			sprite.play("walk_down")
 			is_moving = true
