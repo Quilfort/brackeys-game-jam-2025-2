@@ -174,10 +174,13 @@ func set_state(new_state: CustomerState) -> void:
 				patience_bar.visible = false
 		CustomerState.ANGRY:
 			sprite.play("angry")
-			is_moving = true
+			is_moving = false 
 			is_waiting = false
 			if patience_bar:
 				patience_bar.visible = false
+			
+			# Trigger game over
+			trigger_game_over()
 
 func handle_interaction() -> void:
 	if player_ref == null or not is_waiting:
@@ -237,3 +240,19 @@ func update_animation(direction: Vector2) -> void:
 		else:
 			sprite.play("walk_down")
 			sprite.flip_h = false
+
+# New function to handle game over
+func trigger_game_over() -> void:
+	# Pause the game
+	get_tree().paused = true
+	
+	# Wait a moment to show the angry animation
+	var timer = get_tree().create_timer(2.0)
+	timer.connect("timeout", Callable(self, "_on_game_over_timer_timeout"))
+	
+func _on_game_over_timer_timeout() -> void:
+	# Unpause the tree before changing scenes
+	get_tree().paused = false
+	
+	# Load the restart menu
+	get_tree().change_scene_to_file("res://Scenes/Menus/restart_menu.tscn")
