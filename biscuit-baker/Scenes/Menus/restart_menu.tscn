@@ -53,48 +53,48 @@ offset_left = 25.0
 offset_top = 50.0
 offset_right = 92.0
 offset_bottom = 73.0
-theme_override_font_sizes/font_size = 10
-text = "aaaaaaaaaaa"
+theme_override_font_sizes/font_size = 9
+text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="TimeLabel" type="Label" parent="Control/Panel/StatsContainer"]
 offset_left = 25.0
 offset_top = 85.0
 offset_right = 112.0
 offset_bottom = 108.0
-theme_override_font_sizes/font_size = 10
-text = "aaaaaaaaaaaaaaa"
+theme_override_font_sizes/font_size = 9
+text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="CustomersLabel" type="Label" parent="Control/Panel/StatsContainer"]
 offset_left = 25.0
-offset_top = 120.0
+offset_top = 130.0
 offset_right = 101.0
-offset_bottom = 143.0
-theme_override_font_sizes/font_size = 10
-text = "aaaaaaaaaaaaa"
+offset_bottom = 153.0
+theme_override_font_sizes/font_size = 9
+text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="CookiesLabel" type="Label" parent="Control/Panel/StatsContainer"]
 offset_left = 25.0
-offset_top = 145.0
+offset_top = 165.0
 offset_right = 107.0
-offset_bottom = 168.0
-theme_override_font_sizes/font_size = 10
-text = "aaaaaaaaaaaaaa"
+offset_bottom = 188.0
+theme_override_font_sizes/font_size = 9
+text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="BurnedLabel" type="Label" parent="Control/Panel/StatsContainer"]
 offset_left = 25.0
-offset_top = 170.0
+offset_top = 200.0
 offset_right = 112.0
-offset_bottom = 193.0
-theme_override_font_sizes/font_size = 10
-text = "aaaaaaaaaaaaaaa"
+offset_bottom = 223.0
+theme_override_font_sizes/font_size = 9
+text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="RushLabel" type="Label" parent="Control/Panel/StatsContainer"]
 offset_left = 25.0
-offset_top = 195.0
+offset_top = 235.0
 offset_right = 101.0
-offset_bottom = 218.0
-theme_override_font_sizes/font_size = 10
-text = "aaaaaaaaaaaaa"
+offset_bottom = 258.0
+theme_override_font_sizes/font_size = 9
+text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="RestartButton" type="Button" parent="Control"]
 layout_mode = 0
