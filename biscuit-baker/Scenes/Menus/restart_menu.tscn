@@ -75,6 +75,7 @@ scale = Vector2(0.691589, 0.791045)
 text = "Restart"
 
 [node name="QuitButton" type="Button" parent="Control"]
+layout_mode = 0
 offset_left = 290.0
 offset_top = 200.0
 offset_right = 440.0

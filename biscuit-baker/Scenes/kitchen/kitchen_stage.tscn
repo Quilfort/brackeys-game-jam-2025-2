@@ -45,7 +45,15 @@ position = Vector2(208, 150)
 position = Vector2(208, 350)
 script = ExtResource("6_8d34n")
 customer_scene = ExtResource("7_lb8at")
-counter_marker = NodePath("../CounterMiddleMarker")
+counter_middle_marker = NodePath("../CounterMiddleMarker")
+counter_left_marker = NodePath("../CounterLeftMarker")
+counter_right_marker = NodePath("../CounterRightMarker")
 
 [node name="CounterMiddleMarker" type="Marker2D" parent="CustomerSpawners"]
 position = Vector2(208, 255)
+
+[node name="CounterLeftMarker" type="Marker2D" parent="CustomerSpawners"]
+position = Vector2(112, 255)
+
+[node name="CounterRightMarker" type="Marker2D" parent="CustomerSpawners"]
+position = Vector2(304, 255)
