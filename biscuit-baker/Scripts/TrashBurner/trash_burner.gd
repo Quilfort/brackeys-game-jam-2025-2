@@ -19,9 +19,15 @@ var is_burning: bool = false
 # Progress Indicator
 @onready var progress_indicator = $ProgressIndicator
 
+# Signal for statistics tracking
+signal cookie_burned
+
 func _ready() -> void:
 	interaction_area.connect("body_entered", Callable(self, "_on_body_entered"))
 	interaction_area.connect("body_exited", Callable(self, "_on_body_exited"))
+	
+	# Add to trash_burners group for statistics tracking
+	add_to_group("trash_burners")
 
 	# Set z-index so Trash Burner is always Background
 	sprite.z_index = 0
@@ -56,7 +62,9 @@ func _process(delta: float) -> void:
 			# Reset progress indicator
 			if progress_indicator:
 				progress_indicator.set_progress(0.0)
-	
+			# Emit signal for statistics after burning is complete
+			emit_signal("cookie_burned")
+
 func handle_interaction() -> void:
 	if player_ref == null:
 		return

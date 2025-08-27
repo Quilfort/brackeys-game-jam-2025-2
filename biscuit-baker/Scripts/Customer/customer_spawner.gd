@@ -14,13 +14,61 @@ var counter_left_position_node: Node2D
 @export var counter_right_marker: NodePath
 var counter_right_position_node: Node2D
 
+# Difficulty progression timings
+var difficulty_stages = {
+	1: {
+		"max_customers": 2,
+		"spawn_interval_min": 4.0,
+		"spawn_interval_max": 6.0,
+		"available_counters": ["middle"],
+		"patience_time": 20.0
+	},
+	2: {
+		"max_customers": 3,
+		"spawn_interval_min": 3.5,
+		"spawn_interval_max": 5.5,
+		"available_counters": ["middle", "random_side"],
+		"patience_time": 18.0
+	},
+	3: {
+		"max_customers": 4,
+		"spawn_interval_min": 3.0,
+		"spawn_interval_max": 5.0,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 16.0
+	},
+	4: {
+		"max_customers": 5,
+		"spawn_interval_min": 2.5,
+		"spawn_interval_max": 4.5,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 14.0
+	},
+	5: {
+		"max_customers": 6,
+		"spawn_interval_min": 2.0,
+		"spawn_interval_max": 4.0,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 12.0
+	}
+}
+
+# Difficulty progression timing thresholds (in seconds)
+var difficulty_thresholds = {
+	1: 0.0,    # Start at level 1
+	2: 20.0,   # After 20 seconds, move to level 2 (add one side counter)
+	3: 45.0,   # After 45 seconds, move to level 3 (all counters)
+	4: 70.0,   # After 70 seconds, move to level 4 (faster spawns, more customers)
+	5: 100.0   # After 100 seconds, move to level 5 (even faster)
+}
 
 # Spawn control
 var time_until_next_spawn: float = 0.0
 var can_spawn: bool = true
-var max_customers: int = 4
+var max_customers: int = 2  # Start with just 2 customers
 var current_customers: int = 0
 var next_customer_id: int = 1
+var current_difficulty: int = 1
 
 # Queue management
 var queue_distance: float = 25.0  # Distance between customers in queue
@@ -28,6 +76,9 @@ var customers_in_queue: Array = []  # Track customers in order
 
 # Store which counter each customer is assigned to
 var customer_counter_assignments = {}
+
+# Store which side counter is available in level 2
+var second_counter: String = "left"  # Will be randomized at start
 
 func _ready() -> void:
 	# Set initial spawn timer
@@ -57,16 +108,58 @@ func _ready() -> void:
 		
 	if counter_middle_position_node == null and counter_left_position_node == null and counter_right_position_node == null:
 		print("WARNING: No counter markers set! Customers won't know where to go.")
+	
+	# Randomly select which side counter will be the second one to open
+	second_counter = "left" if randf() < 0.5 else "right"
+	print("Second counter will be: " + second_counter)
 
 func _process(delta: float) -> void:
+	# Update game timer in GameData
+	GameData.update_timer(delta)
+	
+	# Check for difficulty progression
+	check_difficulty_progression()
+	
+	# Spawn customers based on current difficulty
 	if can_spawn and current_customers < max_customers:
 		time_until_next_spawn -= delta
 		
 		if time_until_next_spawn <= 0:
 			print("Spawning customer now...")
 			spawn_customer()
-			time_until_next_spawn = randf_range(2.0, 5.0)
+			
+			# Get spawn interval based on current difficulty
+			var current_stage = difficulty_stages[current_difficulty]
+			time_until_next_spawn = randf_range(
+				current_stage.spawn_interval_min, 
+				current_stage.spawn_interval_max
+			)
 			print("Next customer will spawn in ", time_until_next_spawn, " seconds.")
+
+# Check if we should progress to a new difficulty level
+func check_difficulty_progression() -> void:
+	var game_time = GameData.game_time
+	
+	# Check each threshold to see if we should increase difficulty
+	for level in difficulty_thresholds.keys():
+		if game_time >= difficulty_thresholds[level] and current_difficulty < level:
+			set_difficulty(level)
+
+# Set the current difficulty level
+func set_difficulty(level: int) -> void:
+	if level == current_difficulty:
+		return
+		
+	current_difficulty = level
+	GameData.set_difficulty(level)
+	
+	# Update spawner settings based on new difficulty
+	var settings = difficulty_stages[level]
+	max_customers = settings.max_customers
+	
+	print("Difficulty increased to level " + str(level))
+	print("Max customers: " + str(max_customers))
+	print("Available counters: " + str(settings.available_counters))
 
 func spawn_customer() -> void:
 	if customer_scene:
@@ -80,13 +173,17 @@ func spawn_customer() -> void:
 		customer.global_position = global_position
 		print("Customer spawned at position: ", customer.global_position)
 		
-		# Randomly select a counter position
-		var selected_position = select_random_counter_position()
+		# Select a counter position based on current difficulty
+		var selected_position = select_counter_position_by_difficulty()
 		var counter_node = selected_position.node
 		var position_name = selected_position.name
 		
 		# Store the counter assignment for this customer
 		customer_counter_assignments[customer] = counter_node
+		
+		# Set patience time based on difficulty
+		customer.patience_time = difficulty_stages[current_difficulty].patience_time
+		customer.patience_remaining = customer.patience_time
 		
 		# Check if there are any customers already at this counter
 		var customers_at_this_counter = []
@@ -122,8 +219,42 @@ func spawn_customer() -> void:
 		add_child(customer)
 		current_customers += 1
 		print("Current customer count: ", current_customers)
+		
+		# Update statistics
+		GameData.update_customer_stats(current_customers)
 	else:
 		print("ERROR: No customer scene assigned to spawner!")
+
+# Select a counter position based on current difficulty level
+func select_counter_position_by_difficulty() -> Dictionary:
+	var available_positions = []
+	var position_names = []
+	
+	# Get available counters for current difficulty
+	var available_counters = difficulty_stages[current_difficulty].available_counters
+	
+	# Always add middle counter if it exists
+	if "middle" in available_counters and counter_middle_position_node:
+		available_positions.append(counter_middle_position_node)
+		position_names.append("middle")
+	
+	# Add left counter if it's available in this difficulty
+	if ("left" in available_counters or "random_side" in available_counters and second_counter == "left") and counter_left_position_node:
+		available_positions.append(counter_left_position_node)
+		position_names.append("left")
+	
+	# Add right counter if it's available in this difficulty
+	if ("right" in available_counters or "random_side" in available_counters and second_counter == "right") and counter_right_position_node:
+		available_positions.append(counter_right_position_node)
+		position_names.append("right")
+	
+	if available_positions.is_empty():
+		print("ERROR: No counter positions available for current difficulty!")
+		return {"node": null, "name": "none"}
+	
+	# Select a random counter from available ones
+	var random_index = randi() % available_positions.size()
+	return {"node": available_positions[random_index], "name": position_names[random_index]}
 
 # Calculate position in queue based on index
 func calculate_queue_position(queue_index: int, counter_node: Node2D) -> Vector2:
@@ -136,6 +267,12 @@ func calculate_queue_position(queue_index: int, counter_node: Node2D) -> Vector2
 
 func _on_customer_exited(customer: Node) -> void:
 	current_customers -= 1
+	
+	# Check if customer was satisfied (for statistics)
+	if customer.current_state == customer.CustomerState.SATISFIED:
+		GameData.update_customer_stats(current_customers, true)
+	else:
+		GameData.update_customer_stats(current_customers, false)
 	
 	# Remove from queue
 	var index = customers_in_queue.find(customer)
@@ -150,29 +287,9 @@ func _on_customer_exited(customer: Node) -> void:
 		
 	print("Customer left. Current customer count: ", current_customers)
 
-# Select a random counter position node
+# Select a random counter position node (legacy method, kept for compatibility)
 func select_random_counter_position() -> Dictionary:
-	var available_positions = []
-	var position_names = []
-	
-	if counter_left_position_node:
-		available_positions.append(counter_left_position_node)
-		position_names.append("left")
-	
-	if counter_middle_position_node:
-		available_positions.append(counter_middle_position_node)
-		position_names.append("middle")
-		
-	if counter_right_position_node:
-		available_positions.append(counter_right_position_node)
-		position_names.append("right")
-	
-	if available_positions.is_empty():
-		print("ERROR: No counter positions available!")
-		return {"node": null, "name": "none"}
-	
-	var random_index = randi() % available_positions.size()
-	return {"node": available_positions[random_index], "name": position_names[random_index]}
+	return select_counter_position_by_difficulty()
 
 # Update queue positions when a customer leaves
 func update_queue() -> void:

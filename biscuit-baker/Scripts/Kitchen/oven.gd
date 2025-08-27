@@ -18,9 +18,16 @@ var cookie_in_oven: Node = null
 # Progress Indicator
 @onready var progress_indicator = $ProgressIndicator
 
+# Signals for statistics tracking
+signal cookie_placed_in_oven
+signal cookie_removed_from_oven(cookie_state)
+
 func _ready() -> void:
 	interaction_area.connect("body_entered", Callable(self, "_on_body_entered"))
 	interaction_area.connect("body_exited", Callable(self, "_on_body_exited"))
+	
+	# Add to ovens group for statistics tracking
+	add_to_group("ovens")
 	
 	# Set z-index so Oven is always Background
 	sprite.z_index = 0
@@ -82,6 +89,9 @@ func handle_interaction() -> void:
 		cookie_in_oven = cookie
 		player_ref.carried_cookie = null
 		
+		# Emit signal for statistics
+		emit_signal("cookie_placed_in_oven")
+		
 		# Turn on the oven if it's not already on
 		if not oven_on:
 			toggle_oven()
@@ -95,11 +105,16 @@ func handle_interaction() -> void:
 	elif player_ref.carried_cookie == null and cookie_in_oven != null:
 		# Take cookie out of the oven
 		var cookie = cookie_in_oven
+		var cookie_state = cookie.state
 		cookie.set_cooking(false)  # Stop cooking when removed
 		cookie_holder.remove_child(cookie)
 		player_ref.carry_point.add_child(cookie)
 		cookie.position = Vector2.ZERO
 		player_ref.carried_cookie = cookie
+		
+		# Emit signal for statistics with cookie state
+		emit_signal("cookie_removed_from_oven", cookie_state)
+		
 		cookie_in_oven = null
 		
 		# Turn off the oven when cookie is removed
