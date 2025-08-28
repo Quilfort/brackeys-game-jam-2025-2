@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxm5gveouya08"]
+[gd_scene load_steps=3 format=3 uid="uid://bxm5gveouya08"]
 
 [ext_resource type="Script" uid="uid://c0ihbxyqab3fg" path="res://Scripts/Menus/main_menu.gd" id="1_38aua"]
+[ext_resource type="Theme" uid="uid://cqdc843jukkcx" path="res://Assets/UI/GUI/button.tres" id="2_pha2q"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_38aua")
@@ -13,18 +14,22 @@ offset_bottom = 40.0
 
 [node name="StartButton" type="Button" parent="Control"]
 layout_mode = 0
-offset_left = 133.0
-offset_top = 100.0
-offset_right = 283.0
-offset_bottom = 175.0
+offset_left = 108.0
+offset_top = 50.0
+offset_right = 308.0
+offset_bottom = 125.0
+theme = ExtResource("2_pha2q")
+theme_override_font_sizes/font_size = 40
 text = "Start"
 
 [node name="QuitButton" type="Button" parent="Control"]
 layout_mode = 0
-offset_left = 133.0
-offset_top = 200.0
-offset_right = 283.0
-offset_bottom = 275.0
+offset_left = 108.0
+offset_top = 150.0
+offset_right = 308.0
+offset_bottom = 225.0
+theme = ExtResource("2_pha2q")
+theme_override_font_sizes/font_size = 40
 text = "Quit"
 
 [connection signal="pressed" from="Control/StartButton" to="." method="_on_start_button_pressed"]

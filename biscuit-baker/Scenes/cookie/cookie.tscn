@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cm237tuwg54cx"]
+[gd_scene load_steps=9 format=3 uid="uid://cm237tuwg54cx"]
 
 [ext_resource type="Script" uid="uid://bkoowswm38crg" path="res://Scripts/Cookie/cookie.gd" id="1_ray8k"]
 [ext_resource type="Texture2D" uid="uid://54xmof3wa162" path="res://Assets/Cookie/Cookie Sheet 16x16_nnekart-sample.png" id="2_si65g"]
-[ext_resource type="Texture2D" uid="uid://opj371sxqqrd" path="res://Assets/Packs/Ninja Adventure - Asset Pack/Items/Food/Noodle.png" id="3_622xo"]
-[ext_resource type="Texture2D" uid="uid://pqc4qwa304ew" path="res://Assets/Packs/Ninja Adventure - Asset Pack/Items/Object/CrateEmpty.png" id="4_rxgx4"]
+[ext_resource type="Texture2D" uid="uid://dv7jmjxl86e0t" path="res://Assets/Cookie/Froots N Veggies.png" id="3_622xo"]
+[ext_resource type="Texture2D" uid="uid://dii4pkd7pkogx" path="res://Assets/Cookie/OpenmonItemIcons.png" id="4_rxgx4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_622xo"]
 atlas = ExtResource("2_si65g")
@@ -11,7 +11,11 @@ region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rxgx4"]
 atlas = ExtResource("3_622xo")
-region = Rect2(0, 0, 16, 16)
+region = Rect2(48, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bjen"]
+atlas = ExtResource("4_rxgx4")
+region = Rect2(128, 192, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ray8k"]
 animations = [{
@@ -33,7 +37,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_rxgx4")
+"texture": SubResource("AtlasTexture_3bjen")
 }],
 "loop": true,
 "name": &"overcooked",

@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 # Movement
-@export var movement_speed: float = 100.0
+@export var movement_speed: float = 120.0
 
 # Cookie
 var carried_cookie: Node = null 

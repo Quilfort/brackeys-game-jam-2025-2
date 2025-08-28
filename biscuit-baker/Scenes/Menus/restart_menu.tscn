@@ -1,18 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://pmqo6xseswy0"]
+[gd_scene load_steps=4 format=3 uid="uid://pmqo6xseswy0"]
 
 [ext_resource type="Script" uid="uid://b5cskd6p4r6cb" path="res://Scripts/Menus/restart_menu.gd" id="1_bg0j1"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg0j1"]
-bg_color = Color(0.729399, 0.642567, 0.940795, 0.898039)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.639216, 0.8, 0.8, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[ext_resource type="Theme" uid="uid://cqdc843jukkcx" path="res://Assets/UI/GUI/button.tres" id="2_bg0j1"]
+[ext_resource type="Theme" uid="uid://bi8npbyc5xjm0" path="res://Assets/UI/GUI/panel.tres" id="2_wd1yd"]
 
 [node name="RestartMenu" type="Node2D"]
 script = ExtResource("1_bg0j1")
@@ -25,21 +15,21 @@ offset_bottom = 40.0
 
 [node name="Panel" type="Panel" parent="Control"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 40.0
-offset_right = 260.0
-offset_bottom = 290.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bg0j1")
+offset_left = 9.0
+offset_top = 31.0
+offset_right = 279.0
+offset_bottom = 301.0
+theme = ExtResource("2_wd1yd")
 
 [node name="MenuText" type="Label" parent="Control/Panel"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 134.0
-offset_top = -31.0
-offset_right = 284.0
-offset_bottom = 44.0
+offset_left = 120.0
+offset_top = -26.0
+offset_right = 270.0
+offset_bottom = 49.0
 grow_horizontal = 2
 text = "Thanks for playing
 Don't forget to
@@ -49,50 +39,50 @@ horizontal_alignment = 1
 [node name="StatsContainer" type="Node" parent="Control/Panel"]
 
 [node name="ScoreLabel" type="Label" parent="Control/Panel/StatsContainer"]
-offset_left = 25.0
-offset_top = 50.0
-offset_right = 92.0
-offset_bottom = 73.0
+offset_left = 20.0
+offset_top = 40.0
+offset_right = 190.0
+offset_bottom = 70.0
 theme_override_font_sizes/font_size = 9
 text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="TimeLabel" type="Label" parent="Control/Panel/StatsContainer"]
-offset_left = 25.0
-offset_top = 85.0
-offset_right = 112.0
-offset_bottom = 108.0
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 184.0
+offset_bottom = 103.0
 theme_override_font_sizes/font_size = 9
 text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="CustomersLabel" type="Label" parent="Control/Panel/StatsContainer"]
-offset_left = 25.0
-offset_top = 130.0
-offset_right = 101.0
-offset_bottom = 153.0
+offset_left = 20.0
+offset_top = 120.0
+offset_right = 184.0
+offset_bottom = 143.0
 theme_override_font_sizes/font_size = 9
 text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="CookiesLabel" type="Label" parent="Control/Panel/StatsContainer"]
-offset_left = 25.0
-offset_top = 165.0
-offset_right = 107.0
-offset_bottom = 188.0
+offset_left = 20.0
+offset_top = 160.0
+offset_right = 184.0
+offset_bottom = 183.0
 theme_override_font_sizes/font_size = 9
 text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="BurnedLabel" type="Label" parent="Control/Panel/StatsContainer"]
-offset_left = 25.0
+offset_left = 20.0
 offset_top = 200.0
-offset_right = 112.0
+offset_right = 184.0
 offset_bottom = 223.0
 theme_override_font_sizes/font_size = 9
 text = "\"You baked %d cookies (%d perfectly cooked)\""
 
 [node name="RushLabel" type="Label" parent="Control/Panel/StatsContainer"]
-offset_left = 25.0
-offset_top = 235.0
-offset_right = 101.0
-offset_bottom = 258.0
+offset_left = 20.0
+offset_top = 240.0
+offset_right = 184.0
+offset_bottom = 263.0
 theme_override_font_sizes/font_size = 9
 text = "\"You baked %d cookies (%d perfectly cooked)\""
 
@@ -101,8 +91,9 @@ layout_mode = 0
 offset_left = 290.0
 offset_top = 100.0
 offset_right = 440.0
-offset_bottom = 175.0
+offset_bottom = 160.0
 scale = Vector2(0.691589, 0.791045)
+theme = ExtResource("2_bg0j1")
 text = "Restart"
 
 [node name="QuitButton" type="Button" parent="Control"]
@@ -110,8 +101,9 @@ layout_mode = 0
 offset_left = 290.0
 offset_top = 200.0
 offset_right = 440.0
-offset_bottom = 275.0
+offset_bottom = 260.0
 scale = Vector2(0.691589, 0.791045)
+theme = ExtResource("2_bg0j1")
 text = "Quit"
 
 [connection signal="pressed" from="Control/RestartButton" to="." method="_on_restart_button_pressed"]
