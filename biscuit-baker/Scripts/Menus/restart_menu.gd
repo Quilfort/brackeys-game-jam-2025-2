@@ -141,6 +141,5 @@ func _on_restart_button_pressed() -> void:
 	# Load the main game scene
 	get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
 
-# Quit button handler
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
