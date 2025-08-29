@@ -10,6 +10,9 @@ var burned_label: Label
 var rush_label: Label
 
 func _ready() -> void:
+	# Start playing background music with fade in
+	SoundManager.play_music("restart_menu")
+	
 	# Find UI elements with error handling
 	var control_node = find_child("Control")
 	if control_node:
@@ -135,17 +138,20 @@ func log_game_stats() -> void:
 
 # Restart button handler
 func _on_restart_button_pressed() -> void:
-	# Play restart button sound and wait for it to finish before changing scene
+	# Fade out music and play restart button sound
 	SoundManager.play_sound_and_wait("restart", func():
 		# Reset the game
-		GameData.reset_game()
-		
-		# Load the main game scene
-		get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
+		SoundManager.fade_out_music(func():
+			GameData.reset_game()
+			# Load the main game scene
+			get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
+		)
 	)
 
 func _on_quit_button_pressed() -> void:
-	# Play quit button sound and wait for it to finish before quitting
+	# Fade out music and play quit button sound
 	SoundManager.play_sound_and_wait("quit", func():
-		get_tree().quit()
+		SoundManager.fade_out_music(func():
+			get_tree().quit()
+		)
 	)

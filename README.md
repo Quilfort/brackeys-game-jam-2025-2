@@ -20,6 +20,7 @@ https://nnekart.itch.io/sweet-cookie-icon
 
 To Be updated
 
-## Music
+## Sounds
 
-To Be updated   
+https://mayragandra.itch.io/free-footsteps-sound-effects
+https://fulminisictus.itch.io/visual-novel-audio-pack

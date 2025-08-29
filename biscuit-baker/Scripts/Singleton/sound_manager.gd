@@ -21,8 +21,22 @@ var gameplay_sounds = {
 	"walk": preload("res://Assets/Sounds/Player/walk_sound.wav")
 }
 
+# Music tracks
+var music_tracks = {
+	"main_menu": preload("res://Assets/Sounds/Menus/main_menu_sound.wav") as AudioStream,
+	"restart_menu": preload("res://Assets/Sounds/Menus/restart_menu_1_sound.wav") as AudioStream
+}
+
 # Dictionary to track active audio players
 var _active_players = {}
+
+# Music settings
+@export var fade_duration: float = 1.0  # Duration of fade in/out in seconds
+@export var music_volume_db: float = -5.0  # Default music volume
+
+# Current background music player
+var _current_music_player: AudioStreamPlayer = null
+var _music_tween: Tween = null
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS # Make sure sounds work even when game is paused
@@ -48,6 +62,80 @@ func play_gameplay_sound(sound_name: String, volume_db: float = 0.0) -> AudioStr
 		player.volume_db = volume_db
 	
 	return player
+
+# Play background music with fade in
+# If another music track is playing, it will fade out first
+func play_music(track_name: String, fade_in: bool = true) -> AudioStreamPlayer:
+	if not music_tracks.has(track_name):
+		push_error("Music track not found: " + track_name)
+		return null
+	
+	# If we already have this music playing, don't restart it
+	if _active_players.has(track_name) and _active_players[track_name].playing:
+		return _active_players[track_name]
+	
+	# If we have another music track playing, fade it out first
+	if _current_music_player != null and _current_music_player.playing:
+		fade_out_music()
+	
+	# Create new music player
+	var player = AudioStreamPlayer.new()
+	player.stream = music_tracks[track_name]
+	player.name = "Music_" + track_name
+	player.volume_db = music_volume_db
+	player.bus = "Music"  # Assuming you have a Music bus
+	
+	# # Set to loop
+	# player.stream.loop = true
+	# player.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	
+	# Add to scene tree
+	add_child(player)
+	
+	# Store reference to the player
+	_active_players[track_name] = player
+	_current_music_player = player
+	
+	# Start playing
+	player.play()
+	
+	# Fade in if requested
+	if fade_in:
+		# Start at silent
+		player.volume_db = -80.0
+		
+		# Create tween for fade in
+		if _music_tween:
+			_music_tween.kill()
+		_music_tween = create_tween()
+		_music_tween.tween_property(player, "volume_db", music_volume_db, fade_duration)
+	
+	return player
+
+# Fade out current music
+func fade_out_music(callback: Callable = Callable()) -> void:
+	if _current_music_player == null or not _current_music_player.playing:
+		if callback.is_valid():
+			callback.call()
+		return
+	
+	# Create tween for fade out
+	if _music_tween:
+		_music_tween.kill()
+	_music_tween = create_tween()
+	_music_tween.tween_property(_current_music_player, "volume_db", -80.0, fade_duration)
+	
+	# Connect to tween completion to stop and clean up
+	_music_tween.finished.connect(func():
+		var track_name = _current_music_player.name.replace("Music_", "")
+		_active_players.erase(track_name)
+		_current_music_player.stop()
+		_current_music_player.queue_free()
+		_current_music_player = null
+		
+		if callback.is_valid():
+			callback.call()
+	)
 
 # Check if a sound is currently playing
 func is_sound_playing(sound_name: String) -> bool:
@@ -78,11 +166,12 @@ func _on_sound_finished(player: AudioStreamPlayer, sound_name: String) -> void:
 	# Emit signal that sound has finished
 	sound_finished.emit(sound_name)
 	
-	# Remove from active players
-	_active_players.erase(sound_name)
-	
-	# Clean up the player
-	player.queue_free()
+	# Remove from active players (except music which loops)
+	if not sound_name.begins_with("Music_"):
+		_active_players.erase(sound_name)
+		
+		# Clean up the player
+		player.queue_free()
 
 # Play a sound and wait for it to finish before executing the callback
 func play_sound_and_wait(sound_name: String, callback: Callable) -> void:

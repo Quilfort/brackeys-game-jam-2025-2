@@ -35,5 +35,14 @@ theme = ExtResource("2_pha2q")
 theme_override_font_sizes/font_size = 40
 text = "Quit"
 
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 129.0
+offset_top = 47.0
+offset_right = 303.0
+offset_bottom = 87.0
+text = "TITEL IN PROGRESS
+"
+
 [connection signal="pressed" from="Control/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Control/QuitButton" to="." method="_on_quit_button_pressed"]
