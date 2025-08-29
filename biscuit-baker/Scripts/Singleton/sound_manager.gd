@@ -1,6 +1,10 @@
 extends Node
 
 signal sound_finished(sound_name: String)
+signal mute_state_changed(is_muted: bool)
+
+# Mute state
+var _is_muted: bool = false
 
 # Sound categories
 enum SoundType {
@@ -204,3 +208,21 @@ func play_sound_and_wait(sound_name: String, callback: Callable) -> void:
 			if finished_name == sound_name:
 				callback.call()
 		sound_finished.connect(on_finished, CONNECT_ONE_SHOT)
+
+# Toggle mute state and return the new state
+func toggle_mute() -> bool:
+	_is_muted = !_is_muted
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), _is_muted)
+	mute_state_changed.emit(_is_muted)
+	return _is_muted
+
+# Check if sound is currently muted
+func is_muted() -> bool:
+	return _is_muted
+
+# Set mute state directly
+func set_muted(muted: bool) -> void:
+	if _is_muted != muted:
+		_is_muted = muted
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), _is_muted)
+		mute_state_changed.emit(_is_muted)
