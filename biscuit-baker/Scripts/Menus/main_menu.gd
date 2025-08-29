@@ -7,7 +7,7 @@ func _ready() -> void:
 func _on_start_button_pressed() -> void:
 	SoundManager.play_sound_and_wait("start", func():
 		SoundManager.fade_out_music(func():
-			get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
+			get_tree().change_scene_to_file("res://Scenes/kitchen/kitchen_stage.tscn")
 		)
 	)
 

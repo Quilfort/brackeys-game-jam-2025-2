@@ -13,7 +13,7 @@ var player_ref: Node = null
 
 # Burning properties
 var burning_time: float = 0.0
-var burning_time_required: float = 5.0  # 5 seconds to burn a cookie
+var burning_time_required: float = 3.5  # Reduced from 5.0 to 3.5 seconds for better gameplay flow
 var is_burning: bool = false
 
 # Progress Indicator
