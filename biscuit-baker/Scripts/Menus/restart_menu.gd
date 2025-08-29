@@ -135,11 +135,17 @@ func log_game_stats() -> void:
 
 # Restart button handler
 func _on_restart_button_pressed() -> void:
-	# Reset the game
-	GameData.reset_game()
-	
-	# Load the main game scene
-	get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
+	# Play restart button sound and wait for it to finish before changing scene
+	SoundManager.play_sound_and_wait("restart", func():
+		# Reset the game
+		GameData.reset_game()
+		
+		# Load the main game scene
+		get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
+	)
 
 func _on_quit_button_pressed() -> void:
-	get_tree().quit()
+	# Play quit button sound and wait for it to finish before quitting
+	SoundManager.play_sound_and_wait("quit", func():
+		get_tree().quit()
+	)
