@@ -9,6 +9,9 @@ func _ready() -> void:
 	
 	# Start game timer
 	GameData.reset_timer()
+	
+	# Play kitchen background music with 5-second fade-in and reduced volume (-10dB)
+	SoundManager.play_music("kitchen", true, 5.0, -10.0)
 
 # Connect all signals for statistics tracking
 func connect_statistics_signals() -> void:

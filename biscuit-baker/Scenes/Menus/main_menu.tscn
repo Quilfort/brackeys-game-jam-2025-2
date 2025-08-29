@@ -35,13 +35,19 @@ theme = ExtResource("2_pha2q")
 theme_override_font_sizes/font_size = 40
 text = "Quit"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+[node name="Panel" type="Panel" parent="Control"]
 layout_mode = 0
-offset_left = 129.0
-offset_top = 47.0
-offset_right = 303.0
-offset_bottom = 87.0
-text = "TITEL IN PROGRESS
+offset_left = 152.0
+offset_top = 32.0
+offset_right = 192.0
+offset_bottom = 72.0
+
+[node name="TitleLabel" type="RichTextLabel" parent="Control/Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 174.0
+offset_bottom = 40.0
+text = "Bisk-It Baker
 "
 
 [connection signal="pressed" from="Control/StartButton" to="." method="_on_start_button_pressed"]

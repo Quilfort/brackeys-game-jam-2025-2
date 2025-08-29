@@ -311,6 +311,9 @@ func trigger_game_over() -> void:
 	# Pause the game
 	get_tree().paused = true
 	
+	# Start fading out the music
+	SoundManager.fade_out_music()
+	
 	# Wait a moment to show the angry animation
 	var timer = get_tree().create_timer(2.0)
 	timer.connect("timeout", Callable(self, "_on_game_over_timer_timeout"))

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Biscuit Baker"
+config/name="Bisk-it Baker"
 run/main_scene="uid://cni47lykubb27"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"

@@ -24,7 +24,8 @@ var gameplay_sounds = {
 # Music tracks
 var music_tracks = {
 	"main_menu": preload("res://Assets/Sounds/Menus/main_menu_sound.wav") as AudioStream,
-	"restart_menu": preload("res://Assets/Sounds/Menus/restart_menu_1_sound.wav") as AudioStream
+	"restart_menu": preload("res://Assets/Sounds/Menus/restart_menu_1_sound.wav") as AudioStream,
+	"kitchen": preload("res://Assets/Sounds/Kitchen/kitchen_background_music.ogg") as AudioStream
 }
 
 # Dictionary to track active audio players
@@ -65,7 +66,7 @@ func play_gameplay_sound(sound_name: String, volume_db: float = 0.0) -> AudioStr
 
 # Play background music with fade in
 # If another music track is playing, it will fade out first
-func play_music(track_name: String, fade_in: bool = true) -> AudioStreamPlayer:
+func play_music(track_name: String, fade_in: bool = true, custom_fade_duration: float = -1.0, custom_volume_db: float = 0.0) -> AudioStreamPlayer:
 	if not music_tracks.has(track_name):
 		push_error("Music track not found: " + track_name)
 		return null
@@ -82,12 +83,26 @@ func play_music(track_name: String, fade_in: bool = true) -> AudioStreamPlayer:
 	var player = AudioStreamPlayer.new()
 	player.stream = music_tracks[track_name]
 	player.name = "Music_" + track_name
-	player.volume_db = music_volume_db
+	
+	# Set volume - use custom volume if provided, otherwise use default
+	var target_volume_db = music_volume_db
+	if custom_volume_db != 0.0:
+		target_volume_db = custom_volume_db
+	player.volume_db = target_volume_db
+	
 	player.bus = "Music"  # Assuming you have a Music bus
 	
-	# # Set to loop
-	# player.stream.loop = true
-	# player.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	# Set looping only for specific tracks that need it
+	if track_name == "kitchen":
+		# Set to loop for kitchen music
+		if player.stream is AudioStreamWAV:
+			player.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		elif player.stream is AudioStreamOggVorbis:
+			player.stream.loop = true
+		else:
+			# For other audio formats, just try setting the loop property if available
+			if player.stream.has_method("set_loop") or player.stream.get("loop") != null:
+				player.stream.loop = true
 	
 	# Add to scene tree
 	add_child(player)
@@ -104,11 +119,14 @@ func play_music(track_name: String, fade_in: bool = true) -> AudioStreamPlayer:
 		# Start at silent
 		player.volume_db = -80.0
 		
+		# Use custom fade duration if provided, otherwise use default
+		var actual_fade_duration = custom_fade_duration if custom_fade_duration > 0 else fade_duration
+		
 		# Create tween for fade in
 		if _music_tween:
 			_music_tween.kill()
 		_music_tween = create_tween()
-		_music_tween.tween_property(player, "volume_db", music_volume_db, fade_duration)
+		_music_tween.tween_property(player, "volume_db", music_volume_db, actual_fade_duration)
 	
 	return player
 
