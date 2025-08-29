@@ -21,7 +21,8 @@ var gameplay_sounds = {
 	"walk": preload("res://Assets/Sounds/Player/walk_sound.wav"),
 	"customer_satisfied": preload("res://Assets/Sounds/Kitchen/customer_satisfied.wav"),
 	"heartbeat": preload("res://Assets/Sounds/Kitchen/start_heartbeat.wav"),
-	"cookie_alarm": preload("res://Assets/Sounds/Cookie/cookie_alarm.wav")
+	"cookie_alarm": preload("res://Assets/Sounds/Cookie/cookie_alarm.wav"),
+	"cookie_in_trash_burner": preload("res://Assets/Sounds/Cookie/cookie_in_trashburner.wav")
 }
 
 # Music tracks

@@ -86,6 +86,7 @@ func handle_interaction() -> void:
 			# Turn on the burner
 			trash_burner_on = true
 			burning_time = 0.0
+			SoundManager.play_gameplay_sound("cookie_in_trash_burner")
 			sprite.play("on")
 
 func _on_body_entered(body: Node2D) -> void:

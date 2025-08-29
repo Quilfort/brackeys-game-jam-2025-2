@@ -26,4 +26,5 @@ https://mayragandra.itch.io/free-footsteps-sound-effects
 https://fulminisictus.itch.io/visual-novel-audio-pack
 https://shononoki.itch.io/bullet-hell-music-pack
 https://shapeforms.itch.io/shapeforms-audio-free-sfx
+https://lastdaydreaming.itch.io/elemental-magic-fire-attacks
 
