@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 # Movement
-@export var movement_speed: float = 120.0
+@export var movement_speed: float = 150.0
 @export var footstep_volume: float = -40.0  
 @export var footstep_interval: float = 0.2  
 

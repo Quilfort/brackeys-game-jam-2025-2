@@ -18,106 +18,113 @@ var counter_right_position_node: Node2D
 var difficulty_stages = {
 	1: {
 		"max_customers": 2,
-		"spawn_interval_min": 6.0,
-		"spawn_interval_max": 8.0,
+		"spawn_interval_min": 5.5,
+		"spawn_interval_max": 7.5,
 		"available_counters": ["middle"],
 		"patience_time": 20.0  # Keep patience time consistent
 	},
 	2: {
 		"max_customers": 3,
-		"spawn_interval_min": 5.5,
-		"spawn_interval_max": 7.5,
+		"spawn_interval_min": 5.0,
+		"spawn_interval_max": 7.0,
 		"available_counters": ["middle", "random_side"],
 		"patience_time": 20.0
 	},
 	3: {
-		"max_customers": 4,
-		"spawn_interval_min": 5.0,
-		"spawn_interval_max": 7.0,
-		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
-	},
-	4: {
 		"max_customers": 4,
 		"spawn_interval_min": 4.5,
 		"spawn_interval_max": 6.5,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
-	5: {
-		"max_customers": 4,
+	4: {
+		"max_customers": 5,
 		"spawn_interval_min": 4.0,
 		"spawn_interval_max": 6.0,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
-	6: {
+	5: {
 		"max_customers": 5,
 		"spawn_interval_min": 3.5,
 		"spawn_interval_max": 5.5,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
+	6: {
+		"max_customers": 6,
+		"spawn_interval_min": 3.2,
+		"spawn_interval_max": 5.2,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 20.0
+	},
 	7: {
-		"max_customers": 5,
-		"spawn_interval_min": 3.0,
-		"spawn_interval_max": 5.0,
+		"max_customers": 6,
+		"spawn_interval_min": 2.9,
+		"spawn_interval_max": 4.9,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	8: {
-		"max_customers": 6,
-		"spawn_interval_min": 2.8,
-		"spawn_interval_max": 4.8,
-		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
-	},
-	9: {
-		"max_customers": 6,
+		"max_customers": 7,
 		"spawn_interval_min": 2.6,
 		"spawn_interval_max": 4.6,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
+	9: {
+		"max_customers": 7,
+		"spawn_interval_min": 2.3,
+		"spawn_interval_max": 4.3,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 20.0
+	},
 	10: {
-		"max_customers": 7,
-		"spawn_interval_min": 2.4,
-		"spawn_interval_max": 4.4,
-		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
-	},
-	11: {
-		"max_customers": 7,
-		"spawn_interval_min": 2.2,
-		"spawn_interval_max": 4.2,
-		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
-	},
-	12: {
 		"max_customers": 8,
 		"spawn_interval_min": 2.0,
 		"spawn_interval_max": 4.0,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
-	13: {
+	11: {
 		"max_customers": 8,
 		"spawn_interval_min": 1.8,
 		"spawn_interval_max": 3.8,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
-	14: {
+	12: {
 		"max_customers": 9,
 		"spawn_interval_min": 1.6,
 		"spawn_interval_max": 3.6,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
-	15: {
-		"max_customers": 9,
+	13: {
+		"max_customers": 10,
 		"spawn_interval_min": 1.4,
 		"spawn_interval_max": 3.4,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 20.0
+	},
+	14: {
+		"max_customers": 11,
+		"spawn_interval_min": 1.2,
+		"spawn_interval_max": 3.2,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 20.0
+	},
+	15: {
+		"max_customers": 12,
+		"spawn_interval_min": 1.0,
+		"spawn_interval_max": 3.0,
+		"available_counters": ["middle", "left", "right"],
+		"patience_time": 20.0
+	},
+	16: {
+		"max_customers": 0,  # Will be calculated dynamically
+		"spawn_interval_min": 0.8,
+		"spawn_interval_max": 2.8,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	}
@@ -126,20 +133,21 @@ var difficulty_stages = {
 # Difficulty progression timing thresholds (in seconds)
 var difficulty_thresholds = {
 	1: 0.0,     # Start at level 1
-	2: 30.0,    # After 30 seconds, move to level 2 (add one side counter, more customers)
-	3: 90.0,    # After 90 seconds, move to level 3 (all counters)
-	4: 150.0,   # After 150 seconds, move to level 4 (more customers)
-	5: 210.0,   # After 210 seconds, move to level 5 (plateau at 4 customers)
-	6: 270.0,   # After 270 seconds, move to level 6
-	7: 330.0,   # After 330 seconds, move to level 7
-	8: 390.0,   # After 390 seconds, move to level 8
-	9: 450.0,   # After 450 seconds, move to level 9
-	10: 510.0,  # After 510 seconds, move to level 10
-	11: 570.0,  # After 570 seconds, move to level 11
-	12: 630.0,  # After 630 seconds, move to level 12
-	13: 690.0,  # After 690 seconds, move to level 13
-	14: 750.0,  # After 750 seconds, move to level 14
-	15: 810.0   # After 810 seconds, move to level 15 (final difficulty)
+	2: 20.0,    # After 20 seconds, move to level 2 (add one side counter, more customers)
+	3: 60.0,    # After 60 seconds, move to level 3 (all counters)
+	4: 120.0,   # After 120 seconds, move to level 4 (more customers)
+	5: 180.0,   # After 180 seconds, move to level 5
+	6: 240.0,   # After 240 seconds, move to level 6
+	7: 300.0,   # After 300 seconds, move to level 7
+	8: 360.0,   # After 360 seconds, move to level 8
+	9: 420.0,   # After 420 seconds, move to level 9
+	10: 480.0,  # After 480 seconds, move to level 10
+	11: 540.0,  # After 540 seconds, move to level 11
+	12: 600.0,  # After 600 seconds, move to level 12
+	13: 660.0,  # After 660 seconds, move to level 13
+	14: 720.0,  # After 720 seconds, move to level 14
+	15: 780.0,  # After 780 seconds, move to level 15
+	16: 840.0   # After 840 seconds, move to level 16 (auto-scaling difficulty)
 }
 
 # Spawn control
@@ -236,6 +244,9 @@ func set_difficulty(level: int) -> void:
 	# Update spawner settings based on new difficulty
 	var settings = difficulty_stages[level]
 	max_customers = settings.max_customers
+	
+	if level == 16:
+		max_customers = int(ceil(GameData.game_time / 60.0)) + 2
 	
 	print("Difficulty increased to level " + str(level))
 	print("Max customers: " + str(max_customers))

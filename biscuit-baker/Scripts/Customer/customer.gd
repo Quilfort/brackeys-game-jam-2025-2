@@ -8,7 +8,7 @@ extends CharacterBody2D
 @onready var interaction_area: Area2D = $InteractionArea
 
 # Movement
-@export var speed: float = 50.0
+@export var speed: float = 55.0
 var target_position: Vector2 = Vector2.ZERO
 var is_moving: bool = true
 var move_threshold: float = 5.0  # Distance threshold for considering target reached
