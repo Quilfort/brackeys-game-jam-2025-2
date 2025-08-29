@@ -46,6 +46,9 @@ var score_added: bool = false
 var player_in_range: bool = false
 var player_ref: Node = null
 
+# Sound
+@export var sound_volume: float = -0.0  
+
 # Progress Bar
 @onready var patience_bar = $PatienceBar
 
@@ -214,7 +217,8 @@ func set_state(new_state: CustomerState) -> void:
 			print("Customer now waiting at counter position: " + str(global_position))
 		CustomerState.SATISFIED:
 			sprite.play("happy")
-			is_moving = false  # Don't move while playing happy animation
+			SoundManager.play_gameplay_sound("customer_satisfied", sound_volume)
+			is_moving = false 
 			is_waiting = false
 			if patience_bar:
 				patience_bar.visible = false

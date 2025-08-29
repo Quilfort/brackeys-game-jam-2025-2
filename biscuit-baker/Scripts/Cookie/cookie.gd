@@ -47,5 +47,6 @@ func set_state(_state: CookieState) -> void:
 			sprite.play("dough")
 		CookieState.COOKED:
 			sprite.play("cooked")
+			SoundManager.play_gameplay_sound("cookie_alarm")
 		CookieState.OVERCOOKED:
 			sprite.play("overcooked")

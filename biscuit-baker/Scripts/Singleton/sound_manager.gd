@@ -18,7 +18,10 @@ var button_sounds = {
 
 # Gameplay sounds
 var gameplay_sounds = {
-	"walk": preload("res://Assets/Sounds/Player/walk_sound.wav")
+	"walk": preload("res://Assets/Sounds/Player/walk_sound.wav"),
+	"customer_satisfied": preload("res://Assets/Sounds/Kitchen/customer_satisfied.wav"),
+	"heartbeat": preload("res://Assets/Sounds/Kitchen/start_heartbeat.wav"),
+	"cookie_alarm": preload("res://Assets/Sounds/Cookie/cookie_alarm.wav")
 }
 
 # Music tracks
@@ -126,7 +129,7 @@ func play_music(track_name: String, fade_in: bool = true, custom_fade_duration: 
 		if _music_tween:
 			_music_tween.kill()
 		_music_tween = create_tween()
-		_music_tween.tween_property(player, "volume_db", music_volume_db, actual_fade_duration)
+		_music_tween.tween_property(player, "volume_db", target_volume_db, actual_fade_duration)
 	
 	return player
 
