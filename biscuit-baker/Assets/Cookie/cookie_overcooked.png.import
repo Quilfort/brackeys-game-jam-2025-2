@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dii4pkd7pkogx"
-path="res://.godot/imported/OpenmonItemIcons.png-952acea02d90efd65eceb8e15eddb598.ctex"
+uid="uid://d1jt0q01vmebp"
+path="res://.godot/imported/cookie_overcooked.png-be69bc2873501729df936ac726e4e134.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cookie/OpenmonItemIcons.png"
-dest_files=["res://.godot/imported/OpenmonItemIcons.png-952acea02d90efd65eceb8e15eddb598.ctex"]
+source_file="res://Assets/Cookie/cookie_overcooked.png"
+dest_files=["res://.godot/imported/cookie_overcooked.png-be69bc2873501729df936ac726e4e134.ctex"]
 
 [params]
 
