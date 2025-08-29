@@ -16,6 +16,11 @@ var button_sounds = {
 	"quit": preload("res://Assets/Sounds/Menus/quit_button.wav")
 }
 
+# Gameplay sounds
+var gameplay_sounds = {
+	"walk": preload("res://Assets/Sounds/Player/walk_sound.wav")
+}
+
 # Dictionary to track active audio players
 var _active_players = {}
 
@@ -30,6 +35,23 @@ func play_button_sound(sound_name: String) -> AudioStreamPlayer:
 		return null
 	
 	return _play_sound(button_sounds[sound_name], sound_name, SoundType.BUTTON)
+
+# Play a gameplay sound
+# Returns the AudioStreamPlayer instance
+func play_gameplay_sound(sound_name: String, volume_db: float = 0.0) -> AudioStreamPlayer:
+	if not gameplay_sounds.has(sound_name):
+		push_error("Gameplay sound not found: " + sound_name)
+		return null
+	
+	var player = _play_sound(gameplay_sounds[sound_name], sound_name, SoundType.GAMEPLAY)
+	if player:
+		player.volume_db = volume_db
+	
+	return player
+
+# Check if a sound is currently playing
+func is_sound_playing(sound_name: String) -> bool:
+	return _active_players.has(sound_name) and _active_players[sound_name].playing
 
 # Generic sound player that handles creating and connecting signals
 func _play_sound(stream: AudioStream, sound_name: String, _type: int) -> AudioStreamPlayer:
@@ -67,7 +89,7 @@ func play_sound_and_wait(sound_name: String, callback: Callable) -> void:
 	var player = play_button_sound(sound_name)
 	if player:
 		# Use CONNECT_ONE_SHOT which automatically disconnects after first trigger
-		sound_finished.connect(func(finished_name):
+		var on_finished = func(finished_name):
 			if finished_name == sound_name:
 				callback.call()
-		, CONNECT_ONE_SHOT)
+		sound_finished.connect(on_finished, CONNECT_ONE_SHOT)
