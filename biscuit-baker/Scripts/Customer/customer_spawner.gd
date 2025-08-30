@@ -45,35 +45,35 @@ var difficulty_stages = {
 		"patience_time": 20.0
 	},
 	5: {
-		"max_customers": 5,
+		"max_customers": 6,
 		"spawn_interval_min": 3.5,
 		"spawn_interval_max": 5.5,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	6: {
-		"max_customers": 6,
+		"max_customers": 7,
 		"spawn_interval_min": 3.2,
 		"spawn_interval_max": 5.2,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	7: {
-		"max_customers": 6,
+		"max_customers": 7,
 		"spawn_interval_min": 2.9,
 		"spawn_interval_max": 4.9,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	8: {
-		"max_customers": 7,
+		"max_customers": 8,
 		"spawn_interval_min": 2.6,
 		"spawn_interval_max": 4.6,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	9: {
-		"max_customers": 7,
+		"max_customers": 8,
 		"spawn_interval_min": 2.3,
 		"spawn_interval_max": 4.3,
 		"available_counters": ["middle", "left", "right"],
@@ -87,35 +87,35 @@ var difficulty_stages = {
 		"patience_time": 20.0
 	},
 	11: {
-		"max_customers": 8,
+		"max_customers": 9,
 		"spawn_interval_min": 1.8,
 		"spawn_interval_max": 3.8,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	12: {
-		"max_customers": 9,
+		"max_customers": 10,
 		"spawn_interval_min": 1.6,
 		"spawn_interval_max": 3.6,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	13: {
-		"max_customers": 10,
+		"max_customers": 12,
 		"spawn_interval_min": 1.4,
 		"spawn_interval_max": 3.4,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	14: {
-		"max_customers": 11,
+		"max_customers": 15,
 		"spawn_interval_min": 1.2,
 		"spawn_interval_max": 3.2,
 		"available_counters": ["middle", "left", "right"],
 		"patience_time": 20.0
 	},
 	15: {
-		"max_customers": 12,
+		"max_customers": 18,
 		"spawn_interval_min": 1.0,
 		"spawn_interval_max": 3.0,
 		"available_counters": ["middle", "left", "right"],
