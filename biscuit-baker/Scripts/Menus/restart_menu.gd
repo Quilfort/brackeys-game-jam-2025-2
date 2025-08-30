@@ -1,7 +1,8 @@
 extends Node2D
 
 # UI references
-var stats_container: Node
+var stats_container: VBoxContainer
+var title_label: Label
 var score_label: Label
 var time_label: Label
 var customers_label: Label
@@ -18,6 +19,7 @@ func _ready() -> void:
 	if control_node:
 		var panel_node = control_node.find_child("Panel")
 		if panel_node:
+			title_label = panel_node.find_child("TitleLabel")
 			stats_container = panel_node.find_child("StatsContainer")
 			
 			# Find all labels within the stats container
@@ -39,7 +41,7 @@ func _ready() -> void:
 	display_game_stats()
 	log_game_stats() 
 
-# Display the final game statistics in a fun way
+# Display the final game statistics in a concise, readable format
 func display_game_stats() -> void:
 	var stats = GameData.stats
 	var score = GameData.get_score()
@@ -49,7 +51,7 @@ func display_game_stats() -> void:
 	var seconds = int(stats.game_duration) % 60
 	var time_str = "%d:%02d" % [minutes, seconds]
 	
-	# Set up all the stat labels with fun descriptions
+	# Set up all the stat labels with concise descriptions
 	if score_label:
 		score_label.text = "FINAL SCORE: %d" % score
 	
@@ -57,35 +59,35 @@ func display_game_stats() -> void:
 		time_label.text = "You survived for %s!" % time_str
 	
 	if customers_label:
-		var customer_text = "You served %d happy customers" % GameData.score
+		var customer_text = "• Customers: %d served" % GameData.score
 		
-		# Add fun comment based on customers served
+		# Add brief comment based on customers served
 		if GameData.score >= 15:
-			customer_text += " - You're a customer service legend!"
+			customer_text += " - Legend!"
 		elif GameData.score >= 10:
-			customer_text += " - The customers love you!"
+			customer_text += " - Great job!"
 		elif GameData.score >= 5:
-			customer_text += " - Not bad at all!"
+			customer_text += " - Not bad!"
 		else:
-			customer_text += " - Room for improvement!"
+			customer_text += " - Keep practicing!"
 			
 		customers_label.text = customer_text
 	
 	if cookies_label:
-		var cookies_text = "You baked %d cookies (%d perfectly cooked)" % [stats.total_cookies_made, stats.cookies_fully_cooked]
+		var cookies_text = "• Cookies: %d baked (%d perfect)" % [stats.total_cookies_made, stats.cookies_fully_cooked]
 		
 		# Calculate cooking success rate
 		var success_rate = 0
 		if stats.total_cookies_made > 0:
 			success_rate = int((float(stats.cookies_fully_cooked) / float(stats.total_cookies_made)) * 100)
 		
-		# Add fun comment based on cooking success
+		# Add brief comment based on cooking success
 		if success_rate >= 90:
-			cookies_text += " - Master baker extraordinaire!"
+			cookies_text += " - Master baker!"
 		elif success_rate >= 70:
-			cookies_text += " - You've got serious baking skills!"
+			cookies_text += " - Great skills!"
 		elif success_rate >= 50:
-			cookies_text += " - Getting the hang of it!"
+			cookies_text += " - Getting there!"
 		else:
 			cookies_text += " - Practice makes perfect!"
 			
@@ -96,32 +98,32 @@ func display_game_stats() -> void:
 		if stats.total_cookies_made > 0:
 			burned_ratio = float(stats.total_cookies_burned) / float(stats.total_cookies_made)
 		
-		var burned_text = "You burned %d cookies" % stats.total_cookies_burned
+		var burned_text = "• Burned: %d cookies" % stats.total_cookies_burned
 		
-		# Add fun comment based on burn ratio
+		# Add brief comment based on burn ratio
 		if burned_ratio == 0 and stats.total_cookies_made > 5:
-			burned_text += " - Flawless! Not a single burn!"
+			burned_text += " - Flawless!"
 		elif burned_ratio < 0.1:
-			burned_text += " - Careful baker! Very few burns!"
+			burned_text += " - Careful baker!"
 		elif burned_ratio < 0.3:
-			burned_text += " - A few casualties, but that's baking!"
+			burned_text += " - Not too shabby!"
 		else:
-			burned_text += " - Might want to check that oven timer..."
+			burned_text += " - Watch that timer!"
 			
 		burned_label.text = burned_text
 	
 	if rush_label:
-		var rush_text = "Busiest moment: %d customers at once!" % stats.max_concurrent_customers
+		var rush_text = "• Busiest: %d customers at once" % stats.max_concurrent_customers
 		
-		# Add fun comment based on max concurrent customers
+		# Add brief comment based on max concurrent customers
 		if stats.max_concurrent_customers >= 6:
-			rush_text += " - Absolute madness! How did you manage?!"
+			rush_text += " - Madness!"
 		elif stats.max_concurrent_customers >= 4:
-			rush_text += " - That was quite the rush hour!"
+			rush_text += " - Rush hour!"
 		elif stats.max_concurrent_customers >= 2:
-			rush_text += " - You handled the crowd well!"
+			rush_text += " - Well handled!"
 		else:
-			rush_text += " - A calm day at the bakery!"
+			rush_text += " - Calm day!"
 			
 		rush_label.text = rush_text
 
