@@ -146,7 +146,7 @@ func _on_restart_button_pressed() -> void:
 		SoundManager.fade_out_music(func():
 			GameData.reset_game()
 			# Load the main game scene
-			get_tree().change_scene_to_file("res://Scenes/Kitchen/kitchen_stage.tscn")
+			get_tree().change_scene_to_file("res://Scenes/kitchen/kitchen_stage.tscn")
 		)
 	)
 
