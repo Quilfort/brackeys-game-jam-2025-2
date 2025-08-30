@@ -123,8 +123,8 @@ func handle_interaction() -> void:
 			
 		return
 	
-	# Case 3: Toggle the oven ONLY if there's a cookie in it
-	elif cookie_in_oven != null:
+	# Case 3: Toggle the oven ONLY if there's a cookie in it AND player isn't carrying another cookie
+	elif cookie_in_oven != null and player_ref.carried_cookie == null:
 		toggle_oven()
 
 func _on_body_entered(body: Node2D) -> void:
