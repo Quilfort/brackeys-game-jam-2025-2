@@ -31,102 +31,102 @@ var difficulty_stages = {
 		"patience_time": 20.0
 	},
 	3: {
-		"max_customers": 4,
+		"max_customers": 6,
 		"spawn_interval_min": 4.5,
 		"spawn_interval_max": 6.5,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 18.0
 	},
 	4: {
-		"max_customers": 5,
+		"max_customers": 8,
 		"spawn_interval_min": 4.0,
 		"spawn_interval_max": 6.0,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 18.0
 	},
 	5: {
-		"max_customers": 6,
+		"max_customers": 8,
 		"spawn_interval_min": 3.5,
 		"spawn_interval_max": 5.5,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 18.0
 	},
 	6: {
-		"max_customers": 7,
+		"max_customers": 10,
 		"spawn_interval_min": 3.2,
 		"spawn_interval_max": 5.2,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	7: {
-		"max_customers": 7,
+		"max_customers": 10,
 		"spawn_interval_min": 2.9,
 		"spawn_interval_max": 4.9,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	8: {
-		"max_customers": 8,
+		"max_customers": 12,
 		"spawn_interval_min": 2.6,
 		"spawn_interval_max": 4.6,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	9: {
-		"max_customers": 8,
+		"max_customers": 13,
 		"spawn_interval_min": 2.3,
 		"spawn_interval_max": 4.3,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	10: {
-		"max_customers": 8,
+		"max_customers": 14,
 		"spawn_interval_min": 2.0,
 		"spawn_interval_max": 4.0,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	11: {
-		"max_customers": 9,
+		"max_customers": 15,
 		"spawn_interval_min": 1.8,
 		"spawn_interval_max": 3.8,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	12: {
-		"max_customers": 10,
+		"max_customers": 18,
 		"spawn_interval_min": 1.6,
 		"spawn_interval_max": 3.6,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	13: {
-		"max_customers": 12,
+		"max_customers": 18,
 		"spawn_interval_min": 1.4,
 		"spawn_interval_max": 3.4,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 15.0
 	},
 	14: {
-		"max_customers": 15,
+		"max_customers": 20,
 		"spawn_interval_min": 1.2,
 		"spawn_interval_max": 3.2,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 13.0
 	},
 	15: {
-		"max_customers": 18,
+		"max_customers": 22,
 		"spawn_interval_min": 1.0,
 		"spawn_interval_max": 3.0,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 13.0
 	},
 	16: {
 		"max_customers": 0,  # Will be calculated dynamically
 		"spawn_interval_min": 0.8,
 		"spawn_interval_max": 2.8,
 		"available_counters": ["middle", "left", "right"],
-		"patience_time": 20.0
+		"patience_time": 10.0
 	}
 }
 
