@@ -7,7 +7,12 @@ const MUTE_ICON = preload("res://Assets/UI/GUI/mute.png")
 const UNMUTE_ICON = preload("res://Assets/UI/GUI/unmute.png")
 
 # Icon size
-const ICON_SIZE = Vector2(25, 25)
+const ICON_SIZE = Vector2(10, 10)
+# Button size (slightly larger than icon)
+const BUTTON_SIZE = Vector2(20, 20)
+
+# Button theme
+const BUTTON_THEME = preload("res://Assets/UI/GUI/button.tres")
 
 func _ready() -> void:
 	# Connect to the mute state changed signal from SoundManager
@@ -16,26 +21,19 @@ func _ready() -> void:
 	# Update button appearance based on initial mute state
 	_update_mute_button_appearance(SoundManager.is_muted())
 	
-	# Make button flat (no background)
-	mute_button.flat = true
-	
-	# Remove focus outline
-	mute_button.focus_mode = Control.FOCUS_NONE
-	
-	# Remove hover effect
-	var empty_style = StyleBoxEmpty.new()
-	mute_button.add_theme_stylebox_override("normal", empty_style)
-	mute_button.add_theme_stylebox_override("hover", empty_style)
-	mute_button.add_theme_stylebox_override("pressed", empty_style)
-	mute_button.add_theme_stylebox_override("focus", empty_style)
+	# Apply button theme
+	mute_button.theme = BUTTON_THEME
 	
 	# Clear text since we're using icons
 	mute_button.text = ""
 	
 	# Configure icon sizing
 	mute_button.expand_icon = true
-	mute_button.custom_minimum_size = ICON_SIZE
+	mute_button.custom_minimum_size = BUTTON_SIZE
 	mute_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	
+	# Set button properties
+	mute_button.focus_mode = Control.FOCUS_NONE
 
 func _on_mute_button_pressed() -> void:
 	# Toggle mute state using SoundManager
